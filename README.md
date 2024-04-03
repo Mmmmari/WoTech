@@ -14,14 +14,15 @@ Readme file uses markdown syntax to edit any text, formulas or codes.
 
 ## My favourite code
 
-```java public class Main {
+```java 
+public class Main {
   public static void main(String[] args) {
 
     //winter, spring, summer, autumn
     //warm jacket, t-shirt, swimwear, rain coat
 
     String season = "Summer";
-
+    
     if (season == "Winter"){
       System.out.println("Wear a warm jacket");
       }
@@ -36,6 +37,17 @@ Readme file uses markdown syntax to edit any text, formulas or codes.
     }
     else {
       System.out.println("Invalid season");
+    }
+
+    double temperatures = -15.0; 
+    if (temperatures <= 5) {
+      System.out.println("Wear super warm clothes.");
+    } else if (temperatures <= 15) {
+      System.out.println("Wear warm clothes."); // if I would put only "if" here, it would print "Wear warm clothes." and "You need cooling."
+    } else if (temperatures <= 30) {
+      System.out.println("Wear normal clothes.");
+    } else {
+      System.out.println("You need cooling.");
     }
   }
 }

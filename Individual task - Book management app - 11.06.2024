@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    ArrayList<String> books = new ArrayList<String>();
+
+
+    Scanner scanner = new Scanner(System.in);
+
+    boolean userQuit = false;
+    
+    while (userQuit == false){
+      System.out.println("Please select an action by typing: '1' for adding a book, '2' for removing a book , or '3' to quit. ");
+      int action = scanner.nextInt();
+      scanner.nextLine();
+      if (action == 1){
+        System.out.println("Please enter a book title to add to the list.");
+        String bookToAdd = scanner.nextLine();
+        books.add(bookToAdd);
+        System.out.println("Book added!");
+      }
+      else if (action == 2){
+        System.out.println("Please enter a book title to remove from the list.");
+        String bookToRemove = scanner.nextLine();
+        books.remove(bookToRemove);
+        System.out.println("Book removed!");
+      }
+      else if (action == 3){
+        System.out.println("Thank you for using the book management app! Bye! ");
+        userQuit = true;
+      } 
+      else {
+        System.out.println("Invalid input. Please try again.");
+      }
+      System.out.println("Here is the current list: " + books);
+
+
+    }    
+  }
+}

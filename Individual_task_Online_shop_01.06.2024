@@ -1,0 +1,73 @@
+class Client:
+    def __init__(self, name):
+        self.name = name
+        self.transactions = []
+
+    def buy_items(self, transaction):
+        self.transactions.append(transaction)
+
+
+class Item:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    def __str__(self):
+        return f"Name: {self.name}, Price: {self.price} €. "
+
+
+class Transaction:
+    def __init__(self, items):
+        self.items = items
+
+def find_item_by_name(inventory, name):
+    for item in inventory:
+        if item.name == name:
+            return item
+    return None
+
+milk = Item('Milk', 2)
+bread = Item('Bread', 1)
+cheese = Item('Cheese', 5)
+butter = Item('Butter', 2)
+ham = Item('Ham', 4)
+
+inventory = [milk, bread, cheese, butter, ham]
+
+clients = []
+
+print('Welcome to the online shop! ')
+while (True):
+    name = input("Please enter your name to start shopping. Type 'QUIT' to quit. Once you quit, an overview of today's purchases will be provided. ")
+    if name == "QUIT":
+        print('The shop is now closed. Here are the transactions of the day: ')
+        for client in clients:
+            print(f'Client {client.name} bought the following:')
+            for transaction in client.transactions:
+                for item in transaction.items:
+                    print(item)
+        break
+    print(f'Welcome, ' + name + '!')
+    current_client = Client(name)
+    clients.append(current_client)
+    cart = []
+    print('The following items are for sale: ')
+    for item in inventory:
+        print(item)
+    while (True):
+        item_to_purchase = input("Please select an item by typing its name. Type 'CHECKOUT' to check out. ")
+        if item_to_purchase == 'CHECKOUT':
+            print(f'Thank you for your purchase, ' + name + '!')
+            print('You have purchased the following items: ')
+            for i in cart:
+                print(i)
+            transaction = Transaction(cart)
+            current_client.buy_items(transaction)
+            break
+        item = find_item_by_name(inventory, item_to_purchase)
+        if item == None:
+            print("The item you requested is not for sale in our shop! ")
+            continue
+        cart.append(item)
+        print(item.name + ' has been added to your cart! ')
+

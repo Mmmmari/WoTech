@@ -1,0 +1,184 @@
+// Main.java
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        CheeseShop shop = new CheeseShop();
+        Scanner scanner = new Scanner(System.in);
+        boolean visiting = true;
+
+        System.out.println("Welcome to the Cheese Shop!");
+        System.out.println("--------------------------------");
+        while (visiting) {
+            System.out.println("What would you like to do?");
+            System.out.println("--------------------------------");
+            System.out.println("1. Add Cheese to the shop inventory");
+            System.out.println("2. Remove Cheese from the shop inventory");
+            System.out.println("3. Buy some cheese");
+            System.out.println("4. Remove cheese from your cart");
+            System.out.println("5. View available cheeses");
+            System.out.println("6. View cart");
+            System.out.println("7. Exit");
+            System.out.println("--------------------------------");
+            System.out.print("Please choose what you would like to do: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Please enter the name of the cheese: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Please enter the price of the cheese: ");
+                    double price = scanner.nextDouble();
+                    scanner.nextLine(); 
+                    shop.addCheeseToShop(new Cheese(name, price));
+                    break;
+                case 2:
+                    System.out.print("Please enter the name of the cheese you would like to remove: ");
+                    name = scanner.nextLine();
+                    Cheese cheeseToRemove = null;
+                    for (Cheese cheese : shop.getAvailableCheeses()) {
+                        if (cheese.getName().equals(name)) {
+                            cheeseToRemove = cheese;
+                            break;
+                        }
+                    }
+                    if (cheeseToRemove != null) {
+                        shop.removeCheeseFromShop(cheeseToRemove);
+                    } else {
+                        System.out.println("This cheese is not in the inventory.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("Please enter the name of the cheese you would like to buy: ");
+                    name = scanner.nextLine();
+                    Cheese cheeseToBuy = null;
+                    for (Cheese cheese : shop.getAvailableCheeses()) {
+                        if (cheese.getName().equals(name)) {
+                            cheeseToBuy = cheese;
+                            break;
+                        }
+                    }
+                    if (cheeseToBuy != null) {
+                        shop.addCheeseToCart(cheeseToBuy);
+                    } else {
+                        System.out.println("We do not sell this cheese at the moment.");
+                    }
+                    break;
+                case 4:
+                    System.out.print("Please enter the name of the cheese you would like to remove from your cart: ");
+                    name = scanner.nextLine();
+                    Cheese cheeseInCart = null;
+                    for (Cheese cheese : shop.getCart()) {
+                        if (cheese.getName().equals(name)) {
+                            cheeseInCart = cheese;
+                            break;
+                        }
+                    }
+                    if (cheeseInCart != null) {
+                        shop.removeCheeseFromCart(cheeseInCart);
+                    } else {
+                        System.out.println("This cheese is not in your cart.");
+                    }
+                    break;
+                case 5:
+                    System.out.println("These cheeses are available:");
+                    for (Cheese cheese : shop.getAvailableCheeses()) {
+                        System.out.println(cheese);
+                    }
+                    break;
+                case 6:
+                    System.out.println("These cheeses are in your cart:");
+                    for (Cheese cheese : shop.getCart()) {
+                        System.out.println(cheese);
+                    }
+                    break;
+                case 7:
+                    System.out.println("Thanks for visiting our shop!");
+                    visiting = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        scanner.close();
+    }
+}
+
+
+// Cheese.java
+
+public class Cheese {
+    private String name;
+    private double price;
+
+    public Cheese(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return name + " ($" + price + ")";
+    }
+}
+
+
+
+// CheeseShop.java
+
+import java.util.ArrayList;
+
+public class CheeseShop {
+    private ArrayList<Cheese> availableCheeses;
+    private ArrayList<Cheese> cart;
+
+    public CheeseShop() {
+        availableCheeses = new ArrayList<>();
+        cart = new ArrayList<>();
+    }
+
+    public void addCheeseToShop(Cheese cheese) {
+        availableCheeses.add(cheese);
+    }
+
+    public void removeCheeseFromShop(Cheese cheese) {
+        availableCheeses.remove(cheese);
+    }
+
+    public void addCheeseToCart(Cheese cheese) {
+        if (availableCheeses.contains(cheese)) {
+            cart.add(cheese);
+            availableCheeses.remove(cheese);
+        } else {
+            System.out.println("Sorry, this cheese is not available in the shop.");
+        }
+    }
+
+    public void removeCheeseFromCart(Cheese cheese) {
+        if (cart.contains(cheese)) {
+            cart.remove(cheese);
+            availableCheeses.add(cheese);
+        } else {
+            System.out.println("This cheese not in your cart.");
+        }
+    }
+
+    public ArrayList<Cheese> getAvailableCheeses() {
+        return availableCheeses;
+    }
+
+    public ArrayList<Cheese> getCart() {
+        return cart;
+    }
+}
+
